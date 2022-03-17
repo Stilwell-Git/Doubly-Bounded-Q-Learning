@@ -2,7 +2,6 @@ import numpy as np
 
 class AtariLearner:
 	def __init__(self, args):
-		self.args = args
 		self.target_count = 0
 		self.steps_counter = 0
 		self.learner_info = [
@@ -27,13 +26,13 @@ class AtariLearner:
 					'obs_next': obs,
 					'frame_next': frame,
 					'acts': action,
-					'rews': np.clip(reward, -self.args.rews_scale, self.args.rews_scale),
+					'rews': np.clip(reward, -args.rews_scale, args.rews_scale),
 					'done': done
 				}
 				buffer.store_transition(transition)
 				if done:
 					obs = env.reset()
-			args.logger.add_record('Epsilon', self.args.eps_act)
+			args.logger.add_record('Epsilon', args.eps_act)
 
 			if buffer.steps_counter>=args.warmup:
 				for _ in range(args.train_batches):

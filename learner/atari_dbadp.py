@@ -33,7 +33,6 @@ class DiscountedQueue:
 
 class DBADPAtariLearner:
     def __init__(self, args):
-        self.args = args
         self.steps_counter = 0
         self.target_count = 0
         self.learner_info = [
@@ -62,7 +61,7 @@ class DBADPAtariLearner:
                     'obs_next': obs,
                     'frame_next': frame,
                     'acts': action,
-                    'rews': np.clip(reward, -self.args.rews_scale, self.args.rews_scale),
+                    'rews': np.clip(reward, -args.rews_scale, args.rews_scale),
                     'done': done
                 }
                 self.queue.store_transition(transition)
@@ -74,7 +73,7 @@ class DBADPAtariLearner:
                     batch = buffer.sample_batch()
                     batch['rets'] = []
                     for r, done, hash_next in zip(batch['rews'], batch['done'], batch['hash_next']):
-                        avg_ret = r[0] + (1.0-done[0]) * (self.args.gamma**self.args.nstep) * self.args.adp_lib.get_state_value(hash_next)
+                        avg_ret = r[0] + (1.0-done[0]) * (args.gamma**args.nstep) * args.adp_lib.get_state_value(hash_next)
                         batch['rets'].append([avg_ret])
                     info = agent.train(batch)
                     args.logger.add_dict(info)
@@ -85,4 +84,4 @@ class DBADPAtariLearner:
                         self.args.adp_lib.update_buffer()
                         args.logger.add_record('TimeCost_ADP', time.time()-start_time)
 
-        args.logger.add_record('Epsilon', self.args.eps_act)
+        args.logger.add_record('Epsilon', args.eps_act)
