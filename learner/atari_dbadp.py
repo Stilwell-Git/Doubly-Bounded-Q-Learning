@@ -81,7 +81,7 @@ class DBADPAtariLearner:
                     if self.target_count%args.train_target==0:
                         agent.target_update()
                         start_time = time.time()
-                        self.args.adp_lib.update_buffer()
+                        args.adp_lib.update_buffer()
                         args.logger.add_record('TimeCost_ADP', time.time()-start_time)
 
         args.logger.add_record('Epsilon', args.eps_act)
