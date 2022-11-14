@@ -55,8 +55,8 @@ class Logger:
 	def __init__(self, name):
 		make_dir('log',clear=False)
 		make_dir('log/text',clear=False)
-		if name is None: self.name = time.strftime('%Y-%m-%d-%H:%M:%S')
-		else: self.name = name + time.strftime('-(%Y-%m-%d-%H:%M:%S)')
+		if name is None: self.name = time.strftime('%Y-%m-%d-%H_%M_%S')
+		else: self.name = name + time.strftime('-(%Y-%m-%d-%H_%M_%S)')
 
 		log_file = 'log/text/'+self.name+'.log'
 		self.logger = logging.getLogger(log_file)
